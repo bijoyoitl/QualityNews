@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.optimalbd.qualitynews.NewsModel.Attachment;
 import com.optimalbd.qualitynews.NewsModel.NewsMain;
 import com.optimalbd.qualitynews.NewsModel.Post;
 import com.optimalbd.qualitynews.Utility.AllUrl;
+import com.optimalbd.qualitynews.Utility.CurrentData;
 import com.optimalbd.qualitynews.Utility.InternetConnection;
 import com.optimalbd.qualitynews.Utility.NewsSharePreference;
 
@@ -53,6 +55,7 @@ public class NewsFragment extends Fragment {
     int catId;
 
     ProgressBar loading_progressBar;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -72,6 +75,7 @@ public class NewsFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.newsListView);
         loadMoreLayout = (RelativeLayout) view.findViewById(R.id.loadMoreLayout);
         loading_progressBar = (ProgressBar) view.findViewById(R.id.loading_progressBar);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.activity_main_swipe_refresh_layout);
 
         postArrayList = new ArrayList<>();
         scrollPostArrayList = new ArrayList<>();
@@ -113,6 +117,22 @@ public class NewsFragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (InternetConnection.isInternet(getActivity())) {
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(AllUrl.baseUrl).addConverterFactory(GsonConverterFactory.create()).build();
+                    categoryApis = retrofit.create(CategoryApis.class);
+
+                    getData(AllUrl.categoryNewsUrl + catId);
+
+
+                } else {
+                    internetConnectionAlert();
+                }
+            }
+        });
+
         return view;
     }
 
@@ -129,9 +149,11 @@ public class NewsFragment extends Fragment {
                 sharePreference.saveTotalPage(pages);
 
                 postArrayList = (ArrayList<Post>) newsMain.getPosts();
+                CurrentData.postArrayList = postArrayList;
                 NewsAdapter newsAdapter = new NewsAdapter(getActivity(), postArrayList);
                 listView.setAdapter(newsAdapter);
                 loading_progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -151,7 +173,9 @@ public class NewsFragment extends Fragment {
 
                 List<Attachment> attachment = postArrayList.get(position).getAttachments();
                 for (Attachment medi : attachment) {
-                    thumbnail = medi.getImages().getFull().getUrl();
+                    if (medi.getImages().getFull() != null) {
+                        thumbnail = medi.getImages().getFull().getUrl();
+                    }
 
                 }
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
@@ -203,7 +227,9 @@ public class NewsFragment extends Fragment {
 
                 List<Attachment> attachment = postArrayList.get(position).getAttachments();
                 for (Attachment medi : attachment) {
-                    thumbnail = medi.getImages().getFull().getUrl();
+                    if (medi.getImages().getFull() != null) {
+                        thumbnail = medi.getImages().getFull().getUrl();
+                    }
 
                 }
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
@@ -211,6 +237,7 @@ public class NewsFragment extends Fragment {
                 intent.putExtra("details", details);
                 intent.putExtra("time", time);
                 intent.putExtra("img", thumbnail);
+//                intent.putExtra("postArrayList", postArrayList);
                 startActivity(intent);
             }
         });

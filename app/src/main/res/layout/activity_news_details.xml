@@ -15,13 +15,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#F5F3F4"
+            android:visibility="visible"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="visible"
                 android:orientation="vertical">
 
                 <TextView
@@ -41,8 +43,7 @@
                     android:text="Heading"
                     android:textColor="@android:color/black"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/d_sub_heading"
@@ -51,8 +52,7 @@
                     android:layout_marginLeft="10sp"
                     android:layout_marginRight="10sp"
                     android:text="sub heading"
-                    android:visibility="gone"
-                  />
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -80,8 +80,7 @@
                         android:text="time"
                         android:textAllCaps="true"
                         android:textColor="#38909d"
-                        android:textSize="10sp"
-                        />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
 
@@ -112,19 +111,58 @@
                     android:background="#ffffff"
                     android:paddingLeft="10sp"
                     android:text="shoulder"
-                    android:visibility="gone"
-                   />
+                    android:visibility="gone" />
 
+                <WebView
+                    android:id="@+id/detailsNewaWebView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@drawable/head_top_news"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="7dp"
+                        android:gravity="right"
+                        android:text="Related News"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/relatedNewsListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="255dp"/>
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
-            <WebView
-                android:id="@+id/detailsNewaWebView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
         </LinearLayout>
+
     </ScrollView>
 
 

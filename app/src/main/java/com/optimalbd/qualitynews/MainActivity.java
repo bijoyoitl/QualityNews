@@ -2,6 +2,7 @@ package com.optimalbd.qualitynews;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         sharePreference = new NewsSharePreference(context);
-
+        if (sharePreference.getTextSize() == 0) {
+            sharePreference.saveTextSize(20, 0, "Small");
+        }
 
         categoryArrayList = new ArrayList<>();
 
@@ -106,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(context, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

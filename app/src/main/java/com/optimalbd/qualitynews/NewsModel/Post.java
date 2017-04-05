@@ -3,13 +3,14 @@ package com.optimalbd.qualitynews.NewsModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ripon on 3/30/2017.
  */
 
-public class Post {
+public class Post implements Serializable{
     @SerializedName("id")
     @Expose
     private Integer id;

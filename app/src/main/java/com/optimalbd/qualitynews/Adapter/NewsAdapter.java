@@ -39,7 +39,7 @@ public class NewsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return newsMainArrayList.size();
+        return (newsMainArrayList == null) ? 0 : newsMainArrayList.size();
     }
 
     @Override
@@ -78,10 +78,13 @@ public class NewsAdapter extends BaseAdapter {
             String thumbnail = "";
 
             for (Attachment medi : attachments) {
-                thumbnail = medi.getImages().getLarge().getUrl();
+                if (medi.getImages().getThumbnail() != null) {
 
-                if (!thumbnail.equals("")) {
-                    Picasso.with(context).load(thumbnail).placeholder(R.drawable.news).error(R.drawable.news).into(viewHolder.imageView);
+                    thumbnail = medi.getImages().getThumbnail().getUrl();
+
+                    if (!thumbnail.equals("")) {
+                        Picasso.with(context).load(thumbnail).placeholder(R.drawable.news).error(R.drawable.news).into(viewHolder.imageView);
+                    }
                 }
 
             }
