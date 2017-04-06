@@ -179,6 +179,7 @@ public class NewsFragment extends Fragment {
 
                 }
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("heading", heading);
                 intent.putExtra("details", details);
                 intent.putExtra("time", time);
@@ -219,8 +220,9 @@ public class NewsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String thumbnail = "";
-//                int newsId = postArrayList.get(position).getId();
+                int newsId = postArrayList.get(position).getId();
                 String heading = postArrayList.get(position).getTitlePlain();
                 String details = postArrayList.get(position).getContent();
                 String time = postArrayList.get(position).getDate();
@@ -230,15 +232,17 @@ public class NewsFragment extends Fragment {
                     if (medi.getImages().getFull() != null) {
                         thumbnail = medi.getImages().getFull().getUrl();
                     }
-
                 }
                 Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("newsId", newsId);
                 intent.putExtra("heading", heading);
                 intent.putExtra("details", details);
                 intent.putExtra("time", time);
                 intent.putExtra("img", thumbnail);
 //                intent.putExtra("postArrayList", postArrayList);
                 startActivity(intent);
+
             }
         });
     }

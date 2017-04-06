@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/splash"
     tools:context="com.optimalbd.qualitynews.SplashActivity">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/quality_news"
-        android:contentDescription="@string/app_name" />
-
 </LinearLayout>
